@@ -72,29 +72,37 @@
             font-size: 20px;
             float: right;
         }
-        .language-switch {
-            margin-top: 15px;
+        .language-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
             cursor: pointer;
-        }
-        .whatsapp-btn {
-            margin-top: 20px;
-            display: inline-block;
-            background-color: #25D366;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-size: 18px;
+            background: url('world-icon.png') no-repeat center;
+            background-size: cover;
+            width: 30px;
+            height: 30px;
         }
     </style>
     <script>
+        let currentLanguage = 'es';
+        function toggleLanguage() {
+            const elements = document.querySelectorAll('[data-es], [data-en]');
+            elements.forEach(el => {
+                if (currentLanguage === 'es') {
+                    el.innerText = el.getAttribute('data-en');
+                } else {
+                    el.innerText = el.getAttribute('data-es');
+                }
+            });
+            currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+        }
         function showPlanDetails(plan) {
             let details = document.getElementById('plan-details');
             let content = {
-                'Plan Básico': 'Recomendaciones generales y seguimiento mensual.',
-                'Plan Premium': 'Asesoría personalizada, monitoreo semanal, y plan de comidas.',
-                'Plan Único': 'Consulta única con plan de alimentación ajustado.',
-                'Plan Personalizado': 'Dieta y entrenamiento completamente ajustados a tu estilo de vida.'
+                'Plan Básico': 'Recomendaciones generales, seguimiento mensual, guía básica de alimentación.',
+                'Plan Premium': 'Asesoría personalizada, monitoreo semanal, plan de alimentación detallado con ajustes.',
+                'Plan Único': 'Consulta única, plan de alimentación ajustado a necesidades específicas.',
+                'Plan Personalizado': 'Dieta y entrenamiento completamente ajustados, recomendaciones avanzadas.'
             };
             document.getElementById('plan-title').innerText = plan;
             document.getElementById('plan-content').innerText = content[plan] || 'Detalles próximamente';
@@ -103,26 +111,19 @@
         function closePlanDetails() {
             document.getElementById('plan-details').classList.remove('active');
         }
-        function switchLanguage() {
-            let currentLang = document.documentElement.lang;
-            document.documentElement.lang = (currentLang === 'es') ? 'en' : 'es';
-            document.location.reload();
-        }
     </script>
 </head>
 <body>
     <header>Bienvenido a NutriSync</header>
-    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
-    <div class="language-switch" onclick="switchLanguage()">
-        🌍 Cambiar Idioma
-    </div>
+    <div class="language-toggle" onclick="toggleLanguage()"></div>
+    <div class="floating-motto" data-es="Tu salud, nuestra prioridad!" data-en="Your health, our priority!"></div>
     <div class="container">
-        <h2>Nuestros Planes</h2>
+        <h2 data-es="Nuestros Planes" data-en="Our Plans">Nuestros Planes</h2>
         <div class="plans">
-            <div class="plan" onclick="showPlanDetails('Plan Básico')">Plan Básico</div>
-            <div class="plan" onclick="showPlanDetails('Plan Premium')">Plan Premium</div>
-            <div class="plan" onclick="showPlanDetails('Plan Único')">Plan Único</div>
-            <div class="plan" onclick="showPlanDetails('Plan Personalizado')">Plan Personalizado</div>
+            <div class="plan" onclick="showPlanDetails('Plan Básico')" data-es="Plan Básico" data-en="Basic Plan">Plan Básico</div>
+            <div class="plan" onclick="showPlanDetails('Plan Premium')" data-es="Plan Premium" data-en="Premium Plan">Plan Premium</div>
+            <div class="plan" onclick="showPlanDetails('Plan Único')" data-es="Plan Único" data-en="One-Time Plan">Plan Único</div>
+            <div class="plan" onclick="showPlanDetails('Plan Personalizado')" data-es="Plan Personalizado" data-en="Customized Plan">Plan Personalizado</div>
         </div>
     </div>
     <div class="plan-details" id="plan-details">
@@ -130,6 +131,5 @@
         <h2 id="plan-title">Plan</h2>
         <p id="plan-content"></p>
     </div>
-    <a class="whatsapp-btn" href="https://wa.me/TU_NUMERO" target="_blank">💬 WhatsApp</a>
 </body>
 </html>
