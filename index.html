@@ -3,46 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutiSync - Planes Nutricionales</title>
+    <title>NutriSync - Planes Nutricionales</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
-        header { background: #28a745; color: white; padding: 10px; font-size: 24px; }
-        .container { width: 80%; margin: auto; padding: 20px; }
-        .plan { background: white; padding: 15px; margin: 10px; border-radius: 8px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); cursor: pointer; }
-        .language-toggle { margin: 15px; }
-        .whatsapp-link { display: flex; justify-content: center; align-items: center; margin-top: 20px; }
-        .whatsapp-link img { width: 40px; height: 40px; }
-        .chat-bot { position: fixed; bottom: 20px; right: 20px; background: #28a745; color: white; padding: 10px; border-radius: 50%; cursor: pointer; }
-        .hidden { display: none; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .language-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .language-switch img {
+            width: 24px;
+            height: 24px;
+            margin-left: 5px;
+        }
+        .chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .chatbot-container {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: none;
+            border-radius: 10px;
+        }
+        .chatbot-messages {
+            height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .chatbot-input {
+            width: 100%;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
-    <header>
-        NutiSync - Tu bienestar es nuestra misión
-    </header>
-    <button class="language-toggle" onclick="toggleLanguage()">Español / English</button>
-    <div class="container">
-        <h2>Selecciona un Plan</h2>
-        <div class="plan" onclick="window.location.href='plan-basico.html'">Plan Básico</div>
-        <div class="plan" onclick="window.location.href='plan-premium.html'">Plan Premium</div>
-        <div class="plan" onclick="window.location.href='consulta-unica.html'">Consulta Única</div>
+    <div class="language-switch" onclick="switchLanguage()">
+        <span id="language-text">Español</span>
+        <img id="language-icon" src="spanish-flag.png" alt="Flag">
     </div>
-    <div class="container">
-        <h2>Sobre Nosotros</h2>
-        <p>Somos un equipo comprometido con mejorar tu salud y bienestar a través de planes nutricionales personalizados. Nuestro equipo está compuesto por Christopher, América y Atlas, un asistente digital diseñado para brindarte la mejor experiencia.</p>
+    
+    <h1 id="title">Bienvenido a NutriSync</h1>
+    <p id="subtitle">Tu camino hacia una mejor alimentación</p>
+    
+    <div class="chatbot-icon" onclick="toggleChatbot()">💬</div>
+    <div class="chatbot-container" id="chatbot">
+        <div class="chatbot-messages" id="chatbot-messages"></div>
+        <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Escribe tu pregunta..." onkeypress="handleChat(event)">
     </div>
-    <div class="whatsapp-link">
-        <a href="https://wa.me/TU_NUMERO" target="_blank">
-            <img src="whatsapp-logo.png" alt="WhatsApp">
-        </a>
-    </div>
-    <div class="chat-bot" onclick="openChat()">💬</div>
+    
     <script>
-        function toggleLanguage() {
-            alert("Cambio de idioma activado");
+        function switchLanguage() {
+            let languageText = document.getElementById("language-text");
+            let languageIcon = document.getElementById("language-icon");
+            let title = document.getElementById("title");
+            let subtitle = document.getElementById("subtitle");
+
+            if (languageText.innerText === "Español") {
+                languageText.innerText = "English";
+                languageIcon.src = "english-flag.png";
+                title.innerText = "Welcome to NutriSync";
+                subtitle.innerText = "Your path to better nutrition";
+            } else {
+                languageText.innerText = "Español";
+                languageIcon.src = "spanish-flag.png";
+                title.innerText = "Bienvenido a NutriSync";
+                subtitle.innerText = "Tu camino hacia una mejor alimentación";
+            }
         }
-        function openChat() {
-            alert("Hola! ¿Cómo puedo ayudarte?");
+
+        function toggleChatbot() {
+            let chatbot = document.getElementById("chatbot");
+            chatbot.style.display = chatbot.style.display === "none" ? "block" : "none";
+        }
+
+        function handleChat(event) {
+            if (event.key === "Enter") {
+                let input = document.getElementById("chatbot-input");
+                let messages = document.getElementById("chatbot-messages");
+                let userMessage = input.value;
+                input.value = "";
+
+                let response = getChatbotResponse(userMessage);
+                messages.innerHTML += `<p><strong>Tú:</strong> ${userMessage}</p>`;
+                messages.innerHTML += `<p><strong>NutriBot:</strong> ${response}</p>`;
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        function getChatbotResponse(message) {
+            let responses = {
+                "hola": "¡Hola! ¿En qué puedo ayudarte?",
+                "precios": "Ofrecemos diferentes planes. Puedes revisarlos en nuestra página principal.",
+                "planes": "Nuestros planes incluyen opciones básicas y premium con asesoramiento nutricional.",
+                "contacto": "Puedes contactarnos a través de WhatsApp usando el botón en nuestra página.",
+                "adiós": "¡Gracias por visitarnos! Espero verte pronto."
+            };
+            
+            message = message.toLowerCase();
+            return responses[message] || "Lo siento, no tengo una respuesta para eso.";
         }
     </script>
 </body>
