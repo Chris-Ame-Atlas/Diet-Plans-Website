@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriSync</title>
+    <title>NutiSync</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,11 +23,6 @@
             top: 20px;
             right: 20px;
             cursor: pointer;
-        }
-        .language-switcher img {
-            width: 30px;
-            height: 20px;
-            margin-left: 10px;
         }
         .container {
             padding: 20px;
@@ -148,7 +143,7 @@
                 "precios": "Ofrecemos diferentes planes. Puedes revisarlos en nuestra página principal.",
                 "planes": "Nuestros planes incluyen opciones básicas y premium con asesoramiento nutricional.",
                 "contacto": "Puedes contactarnos a través de WhatsApp usando el botón en nuestra página.",
-                "adiós": "¡Gracias por visitarnos! Espero verte pronto."
+                "adios": "¡Gracias por visitarnos! Espero verte pronto."
             };
             message = message.toLowerCase();
             return responses[message] || "Lo siento, no tengo una respuesta para eso.";
@@ -157,10 +152,7 @@
 </head>
 <body>
     <header>Bienvenido a NutriSync</header>
-    <div class="language-switcher" onclick="switchLanguage()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Spain.svg" alt="Spanish">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English">
-    </div>
+    <div class="language-switcher" onclick="switchLanguage()">🌍</div>
     <div class="container">
         <h2>Nuestros Planes</h2>
         <div class="plans">
@@ -169,7 +161,6 @@
         </div>
     </div>
     <div class="floating-motto">Tu salud, nuestra prioridad!</div>
-
     <div class="chatbot-button" onclick="toggleChatbot()">💬</div>
     <div id="chatbot-container" class="chatbot-container">
         <div class="chatbot-header">NutriBot</div>
