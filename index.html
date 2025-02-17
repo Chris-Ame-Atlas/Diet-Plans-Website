@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriPlan - Planes de Alimentación Personalizados</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+        h1, h2, h3 { color: #333; }
+        .button { display: inline-block; padding: 10px 20px; margin: 10px 0; color: white; background: #28a745; text-decoration: none; border-radius: 5px; }
+        .whatsapp-button { background: #25D366; }
+        .lang-toggle { cursor: pointer; color: blue; text-decoration: underline; display: block; margin-bottom: 10px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="lang-toggle" onclick="toggleLanguage()">🇺🇸 English</span>
+        
+        <div id="content-es">
+            <h1>Bienvenidos a NutriPlan</h1>
+            <p>Planes de alimentación personalizados para tu bienestar.</p>
+            <h2>¿Quiénes Somos?</h2>
+            <p>Somos un equipo apasionado por la nutrición y la salud. Nuestra misión es ayudarte a encontrar el mejor equilibrio alimenticio adaptado a tu estilo de vida.</p>
+            <h2>Nuestros Planes</h2>
+            <ul>
+                <li>Consulta única: $250 MXN</li>
+                <li>Plan Básico: $800 MXN (en línea)</li>
+                <li>Plan Premium: $1500 MXN (seguimiento personalizado)</li>
+            </ul>
+            <h2>Contáctanos</h2>
+            <p>Escríbenos en WhatsApp para más información.</p>
+            <a class="button whatsapp-button" href="https://wa.me/TU_NUMERO">WhatsApp</a>
+        </div>
+        
+        <div id="content-en" class="hidden">
+            <h1>Welcome to NutriPlan</h1>
+            <p>Personalized nutrition plans for your well-being.</p>
+            <h2>Who We Are</h2>
+            <p>We are a team passionate about nutrition and health. Our mission is to help you find the best dietary balance tailored to your lifestyle.</p>
+            <h2>Our Plans</h2>
+            <ul>
+                <li>One-time Consultation: $250 MXN</li>
+                <li>Basic Plan: $800 MXN (online)</li>
+                <li>Premium Plan: $1500 MXN (personalized tracking)</li>
+            </ul>
+            <h2>Contact Us</h2>
+            <p>Message us on WhatsApp for more information.</p>
+            <a class="button whatsapp-button" href="https://wa.me/TU_NUMERO">WhatsApp</a>
+        </div>
+    </div>
+    
+    <script>
+        function toggleLanguage() {
+            var esContent = document.getElementById("content-es");
+            var enContent = document.getElementById("content-en");
+            var toggleButton = document.querySelector(".lang-toggle");
+            
+            if (esContent.classList.contains("hidden")) {
+                esContent.classList.remove("hidden");
+                enContent.classList.add("hidden");
+                toggleButton.innerHTML = "🇺🇸 English";
+            } else {
+                esContent.classList.add("hidden");
+                enContent.classList.remove("hidden");
+                toggleButton.innerHTML = "🇪🇸 Español";
+            }
+        }
+    </script>
+</body>
+</html>
