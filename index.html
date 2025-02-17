@@ -72,34 +72,29 @@
             font-size: 20px;
             float: right;
         }
-        .lang-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .language-switch {
+            margin-top: 15px;
             cursor: pointer;
         }
         .whatsapp-btn {
             margin-top: 20px;
-        }
-        .chatbot {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #0077cc;
+            display: inline-block;
+            background-color: #25D366;
             color: white;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 18px;
         }
     </style>
     <script>
         function showPlanDetails(plan) {
             let details = document.getElementById('plan-details');
             let content = {
-                'Plan Básico': 'Incluye recomendaciones generales y seguimiento mensual.',
-                'Plan Premium': 'Incluye asesoría personalizada, monitoreo semanal y consultas extras.',
+                'Plan Básico': 'Recomendaciones generales y seguimiento mensual.',
+                'Plan Premium': 'Asesoría personalizada, monitoreo semanal, y plan de comidas.',
                 'Plan Único': 'Consulta única con plan de alimentación ajustado.',
-                'Plan Personalizado': 'Dieta y entrenamiento completamente ajustados a tu estilo de vida con seguimiento.'
+                'Plan Personalizado': 'Dieta y entrenamiento completamente ajustados a tu estilo de vida.'
             };
             document.getElementById('plan-title').innerText = plan;
             document.getElementById('plan-content').innerText = content[plan] || 'Detalles próximamente';
@@ -108,18 +103,19 @@
         function closePlanDetails() {
             document.getElementById('plan-details').classList.remove('active');
         }
-        function toggleLang() {
-            alert('Language toggle coming soon!');
-        }
-        function openChatbot() {
-            alert('Chatbot in development! Please contact us via WhatsApp.');
+        function switchLanguage() {
+            let currentLang = document.documentElement.lang;
+            document.documentElement.lang = (currentLang === 'es') ? 'en' : 'es';
+            document.location.reload();
         }
     </script>
 </head>
 <body>
     <header>Bienvenido a NutriSync</header>
-    <img src="world-icon.png" class="lang-toggle" onclick="toggleLang()" alt="Language Toggle">
     <div class="floating-motto">Tu salud, nuestra prioridad!</div>
+    <div class="language-switch" onclick="switchLanguage()">
+        🌍 Cambiar Idioma
+    </div>
     <div class="container">
         <h2>Nuestros Planes</h2>
         <div class="plans">
@@ -134,9 +130,6 @@
         <h2 id="plan-title">Plan</h2>
         <p id="plan-content"></p>
     </div>
-    <a href="https://wa.me/TU_NUMERO" class="whatsapp-btn">
-        <img src="whatsapp-logo.png" alt="WhatsApp" width="50px">
-    </a>
-    <div class="chatbot" onclick="openChatbot()">Chatbot 🤖</div>
+    <a class="whatsapp-btn" href="https://wa.me/TU_NUMERO" target="_blank">💬 WhatsApp</a>
 </body>
 </html>
