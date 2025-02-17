@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutiSync</title>
+    <title>NutriSync</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -73,15 +72,34 @@
             font-size: 20px;
             float: right;
         }
+        .lang-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+        .whatsapp-btn {
+            margin-top: 20px;
+        }
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #0077cc;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
     </style>
     <script>
         function showPlanDetails(plan) {
             let details = document.getElementById('plan-details');
             let content = {
                 'Plan Básico': 'Incluye recomendaciones generales y seguimiento mensual.',
-                'Plan Premium': 'Incluye asesoría personalizada y monitoreo semanal.',
+                'Plan Premium': 'Incluye asesoría personalizada, monitoreo semanal y consultas extras.',
                 'Plan Único': 'Consulta única con plan de alimentación ajustado.',
-                'Plan Personalizado': 'Dieta y entrenamiento completamente ajustados a tu estilo de vida.'
+                'Plan Personalizado': 'Dieta y entrenamiento completamente ajustados a tu estilo de vida con seguimiento.'
             };
             document.getElementById('plan-title').innerText = plan;
             document.getElementById('plan-content').innerText = content[plan] || 'Detalles próximamente';
@@ -90,10 +108,17 @@
         function closePlanDetails() {
             document.getElementById('plan-details').classList.remove('active');
         }
+        function toggleLang() {
+            alert('Language toggle coming soon!');
+        }
+        function openChatbot() {
+            alert('Chatbot in development! Please contact us via WhatsApp.');
+        }
     </script>
 </head>
 <body>
     <header>Bienvenido a NutriSync</header>
+    <img src="world-icon.png" class="lang-toggle" onclick="toggleLang()" alt="Language Toggle">
     <div class="floating-motto">Tu salud, nuestra prioridad!</div>
     <div class="container">
         <h2>Nuestros Planes</h2>
@@ -109,5 +134,9 @@
         <h2 id="plan-title">Plan</h2>
         <p id="plan-content"></p>
     </div>
+    <a href="https://wa.me/TU_NUMERO" class="whatsapp-btn">
+        <img src="whatsapp-logo.png" alt="WhatsApp" width="50px">
+    </a>
+    <div class="chatbot" onclick="openChatbot()">Chatbot 🤖</div>
 </body>
 </html>
