@@ -1,113 +1,53 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutiSync</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #0077cc;
-            color: white;
-            padding: 15px 0;
-            font-size: 24px;
-        }
-        .floating-motto {
-            font-size: 22px;
-            font-weight: bold;
-            color: #cc0000;
-            margin-top: 15px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        .plans {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        .plan {
-            background-color: #0077cc;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            width: 250px;
-            cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s;
-            border-bottom: 4px solid red;
-        }
-        .plan:hover {
-            background-color: #cc0000;
-            transform: scale(1.05);
-        }
-        .plan-details {
-            position: fixed;
-            top: 0;
-            right: -350px;
-            width: 300px;
-            height: 100%;
-            background-color: white;
-            box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            overflow-y: auto;
-            transition: right 0.3s ease;
-        }
-        .plan-details.active {
-            right: 0;
-        }
-        .close-btn {
-            cursor: pointer;
-            color: red;
-            font-weight: bold;
-            font-size: 20px;
-            float: right;
-        }
-    </style>
-    <script>
-        function showPlanDetails(plan) {
-            let details = document.getElementById('plan-details');
-            let content = {
-                'Plan Básico': 'Incluye recomendaciones generales y seguimiento mensual.',
-                'Plan Premium': 'Incluye asesoría personalizada y monitoreo semanal.',
-                'Plan Único': 'Consulta única con plan de alimentación ajustado.',
-                'Plan Personalizado': 'Dieta y entrenamiento completamente ajustados a tu estilo de vida.'
-            };
-            document.getElementById('plan-title').innerText = plan;
-            document.getElementById('plan-content').innerText = content[plan] || 'Detalles próximamente';
-            details.classList.add('active');
-        }
-        function closePlanDetails() {
-            document.getElementById('plan-details').classList.remove('active');
-        }
-    </script>
+    <title>NutriSync - Planes de Dieta Personalizados</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <header>Bienvenido a NutriSync</header>
-    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
-    <div class="container">
-        <h2>Nuestros Planes</h2>
-        <div class="plans">
-            <div class="plan" onclick="showPlanDetails('Plan Básico')">Plan Básico</div>
-            <div class="plan" onclick="showPlanDetails('Plan Premium')">Plan Premium</div>
-            <div class="plan" onclick="showPlanDetails('Plan Único')">Plan Único</div>
-            <div class="plan" onclick="showPlanDetails('Plan Personalizado')">Plan Personalizado</div>
+    <header>
+        <h1>NutriSync</h1>
+        <button id="language-toggle">EN/ES</button>
+    </header><section class="motto">
+    <h2 id="motto-text">Transforma tu vida con NutriSync</h2>
+</section>
+
+<section class="plans">
+    <h2>Nuestros Planes</h2>
+    <div class="plan" onclick="showPlanDetails('basic')">
+        <h3>Plan Básico</h3>
+        <p>Consulta única con recomendaciones generales.</p>
+    </div>
+    <div class="plan" onclick="showPlanDetails('premium')">
+        <h3>Plan Premium</h3>
+        <p>Plan detallado con seguimiento semanal.</p>
+    </div>
+</section>
+
+<section id="plan-details" class="hidden">
+    <h2 id="plan-title"></h2>
+    <p id="plan-description"></p>
+    <button onclick="closePlanDetails()">Cerrar</button>
+</section>
+
+<footer>
+    <a id="whatsapp-button" href="https://wa.me/TU_NUMERO">
+        <img src="whatsapp-logo.png" alt="WhatsApp">
+    </a>
+    <div id="chatbot">
+        <button onclick="openChatbot()">¿Tienes preguntas?</button>
+        <div id="chat-window" class="hidden">
+            <p>Preguntas frecuentes:</p>
+            <ul>
+                <li onclick="chatResponse('¿Qué incluye el plan básico?')">¿Qué incluye el plan básico?</li>
+                <li onclick="chatResponse('¿Cuánto dura el plan premium?')">¿Cuánto dura el plan premium?</li>
+            </ul>
+            <button onclick="closeChatbot()">Cerrar</button>
         </div>
     </div>
-    <div class="plan-details" id="plan-details">
-        <span class="close-btn" onclick="closePlanDetails()">&times;</span>
-        <h2 id="plan-title">Plan</h2>
-        <p id="plan-content"></p>
-    </div>
+</footer>
+
 </body>
 </html>
