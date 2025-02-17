@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutiSync</title>
+    <title>NutriSync</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,7 +59,7 @@
             padding: 10px;
             border-radius: 10px;
         }
-        .chatbot {
+        .chatbot-button {
             position: fixed;
             bottom: 20px;
             left: 20px;
@@ -75,28 +75,88 @@
             font-size: 20px;
             cursor: pointer;
         }
+        .chatbot-container {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            padding: 10px;
+        }
+        .chatbot-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .chatbot-messages {
+            height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+        }
+        .chatbot-input {
+            width: calc(100% - 20px);
+            padding: 5px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+        }
     </style>
     <script>
         function switchLanguage() {
             let currentLang = document.documentElement.lang;
             if (currentLang === "es") {
                 document.documentElement.lang = "en";
-                document.querySelector("header").innerText = "Welcome to NutiSync";
+                document.querySelector("header").innerText = "Welcome to NutriSync";
                 document.querySelector(".floating-motto").innerText = "Your health, our priority!";
                 document.querySelector(".plan-basic").innerText = "Basic Plan";
                 document.querySelector(".plan-premium").innerText = "Premium Plan";
             } else {
                 document.documentElement.lang = "es";
-                document.querySelector("header").innerText = "Bienvenido a NutiSync";
+                document.querySelector("header").innerText = "Bienvenido a NutriSync";
                 document.querySelector(".floating-motto").innerText = "Tu salud, nuestra prioridad!";
                 document.querySelector(".plan-basic").innerText = "Plan Básico";
                 document.querySelector(".plan-premium").innerText = "Plan Premium";
             }
         }
+
+        function toggleChatbot() {
+            let chatbot = document.getElementById("chatbot-container");
+            chatbot.style.display = chatbot.style.display === "none" ? "block" : "none";
+        }
+
+        function handleChat(event) {
+            if (event.key === "Enter") {
+                let input = document.getElementById("chatbot-input");
+                let messages = document.getElementById("chatbot-messages");
+                let userMessage = input.value.trim();
+                input.value = "";
+                if (userMessage === "") return;
+                
+                let response = getChatbotResponse(userMessage);
+                messages.innerHTML += `<p><strong>Tú:</strong> ${userMessage}</p>`;
+                messages.innerHTML += `<p><strong>NutriBot:</strong> ${response}</p>`;
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        function getChatbotResponse(message) {
+            let responses = {
+                "hola": "¡Hola! ¿En qué puedo ayudarte?",
+                "precios": "Ofrecemos diferentes planes. Puedes revisarlos en nuestra página principal.",
+                "planes": "Nuestros planes incluyen opciones básicas y premium con asesoramiento nutricional.",
+                "contacto": "Puedes contactarnos a través de WhatsApp usando el botón en nuestra página.",
+                "adiós": "¡Gracias por visitarnos! Espero verte pronto."
+            };
+            message = message.toLowerCase();
+            return responses[message] || "Lo siento, no tengo una respuesta para eso.";
+        }
     </script>
 </head>
 <body>
-    <header>Bienvenido a NutiSync</header>
+    <header>Bienvenido a NutriSync</header>
     <div class="language-switcher" onclick="switchLanguage()">
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Spain.svg" alt="Spanish">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English">
@@ -109,6 +169,12 @@
         </div>
     </div>
     <div class="floating-motto">Tu salud, nuestra prioridad!</div>
-    <div class="chatbot" onclick="alert('Hola, ¿cómo puedo ayudarte?')">💬</div>
+
+    <div class="chatbot-button" onclick="toggleChatbot()">💬</div>
+    <div id="chatbot-container" class="chatbot-container">
+        <div class="chatbot-header">NutriBot</div>
+        <div id="chatbot-messages" class="chatbot-messages"></div>
+        <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Escribe tu mensaje..." onkeypress="handleChat(event)">
+    </div>
 </body>
 </html>
