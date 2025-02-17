@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="es"><head>
+<!DOCTYPE html><html lang="es">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NutiSync</title>
@@ -16,16 +17,19 @@
             padding: 15px 0;
             font-size: 24px;
         }
-        .floating-motto {
-            font-size: 22px;
-            font-weight: bold;
-            color: #cc0000;
-            margin-top: 15px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+        .language-switcher img {
+            width: 30px;
+            height: 20px;
+            margin-left: 10px;
+        }
+        .container {
+            padding: 20px;
         }
         .plans {
             display: flex;
@@ -35,19 +39,33 @@
             flex-wrap: wrap;
         }
         .plan {
-            background-color: #0077cc;
-            color: white;
+            background-color: white;
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 250px;
             cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s;
-            border-bottom: 4px solid red;
+            transition: transform 0.2s;
         }
         .plan:hover {
-            background-color: #cc0000;
+            background-color: #eef;
             transform: scale(1.05);
+        }
+        .floating-motto {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            animation: fadeInOut 5s infinite;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
         .whatsapp-link {
             position: fixed;
@@ -59,107 +77,50 @@
             height: 50px;
             cursor: pointer;
         }
-        .chatbot-button {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #0077cc;
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        .chatbot-container {
-            position: fixed;
-            bottom: 80px;
-            left: 20px;
-            width: 300px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            display: none;
-            padding: 10px;
-        }
-        .language-switcher {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        .language-switcher img {
-            width: 30px;
-            height: 20px;
-            margin: 5px;
-        }
     </style>
     <script>
-        function toggleChatbot() {
-            let chatbot = document.querySelector('.chatbot-container');
-            chatbot.style.display = chatbot.style.display === 'none' ? 'block' : 'none';
-        }
-        function handleChat(event) {
-            if (event.key === "Enter") {
-                let input = document.getElementById("chatbot-input");
-                let messages = document.getElementById("chatbot-messages");
-                let userMessage = input.value.trim();
-                input.value = "";
-                if (userMessage === "") return;
-                let response = getChatbotResponse(userMessage);
-                messages.innerHTML += `<p><strong>Tú:</strong> ${userMessage}</p>`;
-                messages.innerHTML += `<p><strong>NutriBot:</strong> ${response}</p>`;
-                messages.scrollTop = messages.scrollHeight;
-            }
-        }
-        function getChatbotResponse(message) {
-            let responses = {
-                "hola": "¡Hola! ¿En qué puedo ayudarte?",
-                "precios": "Nuestros planes varían según tus necesidades. Puedes revisarlos en la página de planes.",
-                "planes": "Ofrecemos planes básicos, premium y personalizados para tu salud.",
-                "contacto": "Puedes contactarnos a través de WhatsApp usando el botón en nuestra página.",
-                "horario": "Nuestro horario de atención es de 8 AM a 8 PM, de lunes a viernes.",
-                "adiós": "¡Gracias por visitarnos! Espero verte pronto."
-            };
-            message = message.toLowerCase();
-            return responses[message] || "Lo siento, no tengo una respuesta para eso.";
-        }
         function switchLanguage() {
-            let lang = document.documentElement.lang;
-            if (lang === "es") {
+            let currentLang = document.documentElement.lang;
+            if (currentLang === "es") {
                 document.documentElement.lang = "en";
                 document.querySelector("header").innerText = "Welcome to NutriSync";
                 document.querySelector(".floating-motto").innerText = "Your health, our priority!";
-                document.querySelector("h2").innerText = "Our Plans";
-                document.querySelectorAll(".plan")[0].innerText = "Basic Plan";
-                document.querySelectorAll(".plan")[1].innerText = "Premium Plan";
-                document.querySelectorAll(".plan")[2].innerText = "Single Plan";
-                document.querySelectorAll(".plan")[3].innerText = "Personalized Plan";
+                document.querySelectorAll(".plan").forEach((el, i) => {
+                    el.innerText = plansEN[i];
+                });
             } else {
                 document.documentElement.lang = "es";
                 document.querySelector("header").innerText = "Bienvenido a NutriSync";
                 document.querySelector(".floating-motto").innerText = "Tu salud, nuestra prioridad!";
-                document.querySelector("h2").innerText = "Nuestros Planes";
-                document.querySelectorAll(".plan")[0].innerText = "Plan Básico";
-                document.querySelectorAll(".plan")[1].innerText = "Plan Premium";
-                document.querySelectorAll(".plan")[2].innerText = "Plan Único";
-                document.querySelectorAll(".plan")[3].innerText = "Plan Personalizado";
+                document.querySelectorAll(".plan").forEach((el, i) => {
+                    el.innerText = plansES[i];
+                });
             }
         }
+        const plansES = ["Plan Básico", "Plan Premium", "Plan Único", "Plan Personalizado"];
+        const plansEN = ["Basic Plan", "Premium Plan", "One-Time Plan", "Customized Plan"];
     </script>
 </head>
 <body>
     <header>Bienvenido a NutriSync</header>
-    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
     <div class="language-switcher" onclick="switchLanguage()">
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Spain.svg" alt="Spanish">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English">
+    </div>
+    <div class="container">
+        <h2>Nuestros Planes</h2>
+        <div class="plans">
+            <div class="plan" onclick="window.location.href='plan-basico.html'">Plan Básico</div>
+            <div class="plan" onclick="window.location.href='plan-premium.html'">Plan Premium</div>
+            <div class="plan" onclick="window.location.href='plan-unico.html'">Plan Único</div>
+            <div class="plan" onclick="window.location.href='plan-personalizado.html'">Plan Personalizado</div>
+        </div>
+    </div>
+    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
+    <div class="whatsapp-link">
+        <a href="https://wa.me/TU_NUMERO" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="WhatsApp">
+        </a>
     </div>
 </body>
 </html>
