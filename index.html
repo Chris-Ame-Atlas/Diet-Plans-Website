@@ -17,19 +17,16 @@
             padding: 15px 0;
             font-size: 24px;
         }
-        .language-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-        }
-        .language-switcher img {
-            width: 30px;
-            height: 20px;
-            margin-left: 10px;
-        }
-        .container {
-            padding: 20px;
+        .floating-motto {
+            font-size: 22px;
+            font-weight: bold;
+            color: #cc0000;
+            margin-top: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
         .plans {
             display: flex;
@@ -47,27 +44,12 @@
             width: 250px;
             cursor: pointer;
             transition: transform 0.3s, background-color 0.3s;
+            border-bottom: 4px solid red;
         }
         .plan:hover {
-            background-color: #005fa3;
+            background-color: #cc0000;
             transform: scale(1.05);
-        }
-        .floating-motto {
-            position: fixed;
-            bottom: 10px;
-            right: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 10px;
-            border-radius: 10px;
-            animation: fadeInOut 5s infinite;
-        }
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
+                    }
         .whatsapp-link {
             position: fixed;
             bottom: 20px;
@@ -107,34 +89,40 @@
         }
     </style>
     <script>
-        function switchLanguage() {
-            let currentLang = document.documentElement.lang;
-            if (currentLang === "es") {
-                document.documentElement.lang = "en";
-                document.querySelector("header").innerText = "Welcome to NutriSync";
-                document.querySelector(".floating-motto").innerText = "Your health, our priority!";
-                document.querySelectorAll(".plan").forEach((el, i) => {
-                    el.innerText = plansEN[i];
-                });
-            } else {
-                document.documentElement.lang = "es";
-                document.querySelector("header").innerText = "Bienvenido a NutriSync";
-                document.querySelector(".floating-motto").innerText = "Tu salud, nuestra prioridad!";
-                document.querySelectorAll(".plan").forEach((el, i) => {
-                    el.innerText = plansES[i];
-                });
-            }
+        function toggleChatbot() {
+            let chatbot = document.querySelector('.chatbot-container');
+            chatbot.style.display = chatbot.style.display === 'none' ? 'block' : 'none';
         }
-        const plansES = ["Plan Básico", "Plan Premium", "Plan Único", "Plan Personalizado"];
-        const plansEN = ["Basic Plan", "Premium Plan", "One-Time Plan", "Customized Plan"];
-    </script>
+        function handleChat(event) {
+            if (event.key === "Enter") {
+                let input = document.getElementById("chatbot-input");
+                let messages = document.getElementById("chatbot-messages");
+                let userMessage = input.value.trim();
+                input.value = "";
+                if (userMessage === "") return;let response = getChatbotResponse(userMessage);
+            messages.innerHTML += `<p><strong>Tú:</strong> ${userMessage}</p>`;
+            messages.innerHTML += `<p><strong>NutriBot:</strong> ${response}</p>`;
+            messages.scrollTop = messages.scrollHeight;
+        }
+    }
+    function getChatbotResponse(message) {
+        let responses = {
+            "hola": "¡Hola! ¿En qué puedo ayudarte?",
+            "precios": "Nuestros planes varían según tus necesidades. Puedes revisarlos en la página de planes.",
+            "planes": "Ofrecemos planes básicos, premium y personalizados para tu salud.",
+            "contacto": "Puedes contactarnos a través de WhatsApp usando el botón en nuestra página.",
+            "horario": "Nuestro horario de atención es de 8 AM a 8 PM, de lunes a viernes.",
+            "adiós": "¡Gracias por visitarnos! Espero verte pronto."
+        };
+        message = message.toLowerCase();
+        return responses[message] || "Lo siento, no tengo una respuesta para eso.";
+    }
+</script>
+
 </head>
 <body>
     <header>Bienvenido a NutriSync</header>
-    <div class="language-switcher" onclick="switchLanguage()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Spain.svg" alt="Spanish">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English">
-    </div>
+    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
     <div class="container">
         <h2>Nuestros Planes</h2>
         <div class="plans">
@@ -144,17 +132,11 @@
             <div class="plan" onclick="window.location.href='plan-personalizado.html'">Plan Personalizado</div>
         </div>
     </div>
-    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
-    <div class="whatsapp-link">
-        <a href="https://wa.me/TU_NUMERO" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="WhatsApp">
-        </a>
-    </div>
-    <div class="chatbot-button" onclick="document.querySelector('.chatbot-container').style.display='block'">💬</div>
+    <div class="chatbot-button" onclick="toggleChatbot()">💬</div>
     <div class="chatbot-container">
         <div class="chatbot-header">NutriBot</div>
         <div id="chatbot-messages" class="chatbot-messages"></div>
-        <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Escribe tu mensaje...">
+        <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Escribe tu mensaje..." onkeypress="handleChat(event)">
     </div>
 </body>
 </html>
