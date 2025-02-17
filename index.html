@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,19 +18,16 @@
             padding: 15px 0;
             font-size: 24px;
         }
-        .language-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-        }
-        .language-switcher img {
-            width: 30px;
-            height: 20px;
-            margin-left: 10px;
-        }
-        .container {
-            padding: 20px;
+        .floating-motto {
+            font-size: 22px;
+            font-weight: bold;
+            color: #cc0000;
+            margin-top: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
         .plans {
             display: flex;
@@ -39,88 +37,77 @@
             flex-wrap: wrap;
         }
         .plan {
-            background-color: white;
+            background-color: #0077cc;
+            color: white;
             padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             width: 250px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.3s, background-color 0.3s;
+            border-bottom: 4px solid red;
         }
         .plan:hover {
-            background-color: #eef;
+            background-color: #cc0000;
             transform: scale(1.05);
         }
-        .floating-motto {
+        .plan-details {
             position: fixed;
-            bottom: 10px;
-            right: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 10px;
-            animation: fadeInOut 5s infinite;
+            top: 0;
+            right: -350px;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            overflow-y: auto;
+            transition: right 0.3s ease;
         }
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
+        .plan-details.active {
+            right: 0;
         }
-        .whatsapp-link {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
-        .whatsapp-link img {
-            width: 50px;
-            height: 50px;
+        .close-btn {
             cursor: pointer;
+            color: red;
+            font-weight: bold;
+            font-size: 20px;
+            float: right;
         }
     </style>
     <script>
-        function switchLanguage() {
-            let currentLang = document.documentElement.lang;
-            if (currentLang === "es") {
-                document.documentElement.lang = "en";
-                document.querySelector("header").innerText = "Welcome to NutriSync";
-                document.querySelector(".floating-motto").innerText = "Your health, our priority!";
-                document.querySelectorAll(".plan").forEach((el, i) => {
-                    el.innerText = plansEN[i];
-                });
-            } else {
-                document.documentElement.lang = "es";
-                document.querySelector("header").innerText = "Bienvenido a NutriSync";
-                document.querySelector(".floating-motto").innerText = "Tu salud, nuestra prioridad!";
-                document.querySelectorAll(".plan").forEach((el, i) => {
-                    el.innerText = plansES[i];
-                });
-            }
+        function showPlanDetails(plan) {
+            let details = document.getElementById('plan-details');
+            let content = {
+                'Plan Básico': 'Incluye recomendaciones generales y seguimiento mensual.',
+                'Plan Premium': 'Incluye asesoría personalizada y monitoreo semanal.',
+                'Plan Único': 'Consulta única con plan de alimentación ajustado.',
+                'Plan Personalizado': 'Dieta y entrenamiento completamente ajustados a tu estilo de vida.'
+            };
+            document.getElementById('plan-title').innerText = plan;
+            document.getElementById('plan-content').innerText = content[plan] || 'Detalles próximamente';
+            details.classList.add('active');
         }
-        const plansES = ["Plan Básico", "Plan Premium", "Plan Único", "Plan Personalizado"];
-        const plansEN = ["Basic Plan", "Premium Plan", "One-Time Plan", "Customized Plan"];
+        function closePlanDetails() {
+            document.getElementById('plan-details').classList.remove('active');
+        }
     </script>
 </head>
 <body>
     <header>Bienvenido a NutriSync</header>
-    <div class="language-switcher" onclick="switchLanguage()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Spain.svg" alt="Spanish">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English">
-    </div>
+    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
     <div class="container">
         <h2>Nuestros Planes</h2>
         <div class="plans">
-            <div class="plan" onclick="window.location.href='plan-basico.html'">Plan Básico</div>
-            <div class="plan" onclick="window.location.href='plan-premium.html'">Plan Premium</div>
-            <div class="plan" onclick="window.location.href='plan-unico.html'">Plan Único</div>
-            <div class="plan" onclick="window.location.href='plan-personalizado.html'">Plan Personalizado</div>
+            <div class="plan" onclick="showPlanDetails('Plan Básico')">Plan Básico</div>
+            <div class="plan" onclick="showPlanDetails('Plan Premium')">Plan Premium</div>
+            <div class="plan" onclick="showPlanDetails('Plan Único')">Plan Único</div>
+            <div class="plan" onclick="showPlanDetails('Plan Personalizado')">Plan Personalizado</div>
         </div>
     </div>
-    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
-    <div class="whatsapp-link">
-        <a href="https://wa.me/TU_NUMERO" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="WhatsApp">
-        </a>
+    <div class="plan-details" id="plan-details">
+        <span class="close-btn" onclick="closePlanDetails()">&times;</span>
+        <h2 id="plan-title">Plan</h2>
+        <p id="plan-content"></p>
     </div>
 </body>
 </html>
