@@ -60,63 +60,103 @@
             height: 50px;
             cursor: pointer;
         }
-        .language-switcher {
+        .chatbot-button {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            bottom: 20px;
+            left: 20px;
+            background-color: #0077cc;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
             cursor: pointer;
+        }
+        .chatbot-container {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            padding: 10px;
         }
         .language-switcher img {
             width: 30px;
             height: 20px;
-            margin-left: 10px;
+            margin: 10px;
+            cursor: pointer;
         }
     </style>
     <script>
-        function switchLanguage() {
-            let currentLang = document.documentElement.lang;
-            if (currentLang === "es") {
-                document.documentElement.lang = "en";
-                document.querySelector("header").innerText = "Welcome to NutriSync";
-                document.querySelector(".floating-motto").innerText = "Your health, our priority!";
-                document.querySelectorAll(".plan")[0].innerText = "Basic Plan";
-                document.querySelectorAll(".plan")[1].innerText = "Premium Plan";
-                document.querySelectorAll(".plan")[2].innerText = "One-Time Plan";
-                document.querySelectorAll(".plan")[3].innerText = "Personalized Plan";
-            } else {
-                document.documentElement.lang = "es";
-                document.querySelector("header").innerText = "Bienvenido a NutriSync";
-                document.querySelector(".floating-motto").innerText = "Tu salud, nuestra prioridad!";
-                document.querySelectorAll(".plan")[0].innerText = "Plan Básico";
-                document.querySelectorAll(".plan")[1].innerText = "Plan Premium";
-                document.querySelectorAll(".plan")[2].innerText = "Plan Único";
-                document.querySelectorAll(".plan")[3].innerText = "Plan Personalizado";
+        function toggleChatbot() {
+            let chatbot = document.querySelector('.chatbot-container');
+            chatbot.style.display = chatbot.style.display === 'none' ? 'block' : 'none';
+        }
+        function handleChat(event) {
+            if (event.key === "Enter") {
+                let input = document.getElementById("chatbot-input");
+                let messages = document.getElementById("chatbot-messages");
+                let userMessage = input.value.trim();
+                input.value = "";
+                if (userMessage === "") return;
+                let response = getChatbotResponse(userMessage);
+                messages.innerHTML += `<p><strong>Tú:</strong> ${userMessage}</p>`;
+                messages.innerHTML += `<p><strong>NutriBot:</strong> ${response}</p>`;
+                messages.scrollTop = messages.scrollHeight;
             }
+        }
+        function getChatbotResponse(message) {
+            let responses = {
+                "hola": "¡Hola! ¿En qué puedo ayudarte?",
+                "precios": "Nuestros planes varían según tus necesidades. Puedes revisarlos en la página de planes.",
+                "planes": "Ofrecemos planes básicos, premium y personalizados para tu salud.",
+                "contacto": "Puedes contactarnos a través de WhatsApp usando el botón en nuestra página.",
+                "horario": "Nuestro horario de atención es de 8 AM a 8 PM, de lunes a viernes.",
+                "adiós": "¡Gracias por visitarnos! Espero verte pronto."
+            };
+            message = message.toLowerCase();
+            return responses[message] || "Lo siento, no tengo una respuesta para eso.";
+        }
+        function switchLanguage() {
+            let lang = document.documentElement.lang;
+            document.documentElement.lang = lang === "es" ? "en" : "es";
+            location.reload();
         }
     </script>
 </head>
 <body>
     <header>Bienvenido a NutriSync</header>
-    <div class="floating-motto">Tu salud, nuestra prioridad!</div><div class="language-switcher" onclick="switchLanguage()">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Spain.svg" alt="Spanish"> 
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English"> 
-</div>
-
-<div class="container">
-    <h2>Nuestros Planes</h2>
-    <div class="plans">
-        <div class="plan" onclick="window.location.href='plan-basico.html'">Plan Básico</div>
-        <div class="plan" onclick="window.location.href='plan-premium.html'">Plan Premium</div>
-        <div class="plan" onclick="window.location.href='plan-unico.html'">Plan Único</div>
-        <div class="plan" onclick="window.location.href='plan-personalizado.html'">Plan Personalizado</div>
+    <div class="floating-motto">Tu salud, nuestra prioridad!</div>
+    <div class="language-switcher" onclick="switchLanguage()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Spain.svg" alt="Spanish">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English">
     </div>
-</div>
-
-<div class="whatsapp-link">
-    <a href="https://wa.me/YOUR_PHONE_NUMBER" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-    </a>
-</div>
-
+    <div class="container">
+        <h2>Nuestros Planes</h2>
+        <div class="plans">
+            <div class="plan" onclick="window.location.href='plan-basico.html'">Plan Básico</div>
+            <div class="plan" onclick="window.location.href='plan-premium.html'">Plan Premium</div>
+            <div class="plan" onclick="window.location.href='plan-unico.html'">Plan Único</div>
+            <div class="plan" onclick="window.location.href='plan-personalizado.html'">Plan Personalizado</div>
+        </div>
+    </div>
+    <div class="whatsapp-link">
+        <a href="https://wa.me/TU_NUMERO">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        </a>
+    </div>
+    <div class="chatbot-button" onclick="toggleChatbot()">💬</div>
+    <div class="chatbot-container">
+        <div class="chatbot-header">NutriBot</div>
+        <div id="chatbot-messages" class="chatbot-messages"></div>
+        <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Escribe tu mensaje..." onkeypress="handleChat(event)">
+    </div>
 </body>
 </html>
