@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="es">
-<head>
+<!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NutiSync</title>
@@ -87,11 +86,18 @@
             display: none;
             padding: 10px;
         }
+        .language-switcher {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
         .language-switcher img {
             width: 30px;
             height: 20px;
-            margin: 10px;
-            cursor: pointer;
+            margin: 5px;
         }
     </style>
     <script>
@@ -126,8 +132,25 @@
         }
         function switchLanguage() {
             let lang = document.documentElement.lang;
-            document.documentElement.lang = lang === "es" ? "en" : "es";
-            location.reload();
+            if (lang === "es") {
+                document.documentElement.lang = "en";
+                document.querySelector("header").innerText = "Welcome to NutriSync";
+                document.querySelector(".floating-motto").innerText = "Your health, our priority!";
+                document.querySelector("h2").innerText = "Our Plans";
+                document.querySelectorAll(".plan")[0].innerText = "Basic Plan";
+                document.querySelectorAll(".plan")[1].innerText = "Premium Plan";
+                document.querySelectorAll(".plan")[2].innerText = "Single Plan";
+                document.querySelectorAll(".plan")[3].innerText = "Personalized Plan";
+            } else {
+                document.documentElement.lang = "es";
+                document.querySelector("header").innerText = "Bienvenido a NutriSync";
+                document.querySelector(".floating-motto").innerText = "Tu salud, nuestra prioridad!";
+                document.querySelector("h2").innerText = "Nuestros Planes";
+                document.querySelectorAll(".plan")[0].innerText = "Plan Básico";
+                document.querySelectorAll(".plan")[1].innerText = "Plan Premium";
+                document.querySelectorAll(".plan")[2].innerText = "Plan Único";
+                document.querySelectorAll(".plan")[3].innerText = "Plan Personalizado";
+            }
         }
     </script>
 </head>
@@ -137,26 +160,6 @@
     <div class="language-switcher" onclick="switchLanguage()">
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Spain.svg" alt="Spanish">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English">
-    </div>
-    <div class="container">
-        <h2>Nuestros Planes</h2>
-        <div class="plans">
-            <div class="plan" onclick="window.location.href='plan-basico.html'">Plan Básico</div>
-            <div class="plan" onclick="window.location.href='plan-premium.html'">Plan Premium</div>
-            <div class="plan" onclick="window.location.href='plan-unico.html'">Plan Único</div>
-            <div class="plan" onclick="window.location.href='plan-personalizado.html'">Plan Personalizado</div>
-        </div>
-    </div>
-    <div class="whatsapp-link">
-        <a href="https://wa.me/TU_NUMERO">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-        </a>
-    </div>
-    <div class="chatbot-button" onclick="toggleChatbot()">💬</div>
-    <div class="chatbot-container">
-        <div class="chatbot-header">NutriBot</div>
-        <div id="chatbot-messages" class="chatbot-messages"></div>
-        <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Escribe tu mensaje..." onkeypress="handleChat(event)">
     </div>
 </body>
 </html>
